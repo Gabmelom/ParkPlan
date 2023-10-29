@@ -1,0 +1,42 @@
+@page "/login"
+@using ParkPlan.Components.Login
+
+<PageTitle>Login</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12">
+        <MudStack Row="true" Class="justify-center">
+            <MudText Typo="Typo.h2">ParkPlan</MudText>
+        </MudStack>
+    </MudItem>
+    @if(ShowRegistrationForm)
+    {
+        <MudItem xs="6">
+            @* Registration form *@
+            <RegistrationForm/>
+            <MudText>New to ParkPlan? <MudLink @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>
+        </MudItem>
+    }
+    else
+    {
+        @* Login form *@
+        <MudItem xs="6">
+            <MudPaper>
+                <LoginForm/>
+                <MudText>New to ParkPlan? <MudLink @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>
+            </MudPaper>
+        </MudItem>
+    }
+    
+    
+</MudGrid>
+
+@code{
+
+    public bool ShowRegistrationForm = false;
+    
+    void ToggleRegistrationForm()
+    {
+        ShowRegistrationForm = !ShowRegistrationForm;
+    }
+}

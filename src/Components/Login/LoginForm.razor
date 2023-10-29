@@ -1,0 +1,34 @@
+<MudTextField Label="Username" @bind-Value="Username"/>
+<MudTextField @bind-Value="Password"
+              Label="Password" InputType="@PasswordInput" 
+              Adornment="Adornment.End" 
+              AdornmentIcon="@PasswordInputIcon"
+              OnAdornmentClick="TogglePassword" 
+              AdornmentAriaLabel="Show Password"/>
+<MudButton Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>
+
+
+@code {
+    string? Username { get; set; }
+    string? Password { get; set; }
+    
+    bool _isShow;
+    public InputType PasswordInput = InputType.Password;
+    public string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePassword()
+    {
+        @if (_isShow)
+        {
+            _isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            _isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}
