@@ -1,16 +1,36 @@
-<MudTextField Label="Username" @bind-Value="Username"/>
-<MudTextField @bind-Value="Password"
-              Label="Password" InputType="@PasswordInput" 
-              Adornment="Adornment.End" 
-              AdornmentIcon="@PasswordInputIcon"
-              OnAdornmentClick="TogglePassword" 
-              AdornmentAriaLabel="Show Password"/>
-<MudButton Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Nav
 
+<MudGrid>
+    <MudItem xs="12">
+        <MudCard Elevation="0">
+            <MudCardContent>
+                <MudTextField @bind-Value="_model.Username" For="@(() => _model.Username)" 
+                              Variant="Variant.Outlined"
+                              Label="Username" />
+                <MudTextField @bind-Value="_model.Password" For="@(() => _model.Password)"
+                              Label="Password" 
+                              InputType="@PasswordInput"
+                              Variant="Variant.Outlined"
+                              Adornment="Adornment.End" 
+                              AdornmentIcon="@PasswordInputIcon"
+                              OnAdornmentClick="TogglePassword" 
+                              AdornmentAriaLabel="Show Password"/>
+            </MudCardContent>
+            <MudCardActions Class="justify-center">
+                <div>
+                    <MudButton OnClick="@(() => Nav.NavigateTo("/profile"))" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>    
+                </div>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 
 @code {
     string? Username { get; set; }
     string? Password { get; set; }
+    LoginFormModel _model = new();
+    bool _success;
     
     bool _isShow;
     public InputType PasswordInput = InputType.Password;
@@ -30,5 +50,19 @@
             PasswordInputIcon = Icons.Material.Filled.Visibility;
             PasswordInput = InputType.Text;
         }
+    }
+    
+    
+
+    public class LoginFormModel
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+    }
+
+    private void OnValidSubmit(EditContext context)
+    {
+        _success = true;
+        StateHasChanged();
     }
 }

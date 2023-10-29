@@ -4,27 +4,27 @@
 <PageTitle>Login</PageTitle>
 
 <MudGrid Justify="Justify.Center">
-    <MudItem xs="12">
-        <MudStack Row="true" Class="justify-center">
-            <MudText Typo="Typo.h2">ParkPlan</MudText>
-        </MudStack>
+    <MudItem xs="12" Class="d-flex justify-center">
+        <ParkPlanLogo Typo="Typo.h2"/>
     </MudItem>
     @if(ShowRegistrationForm)
     {
+        @* Registration form *@
         <MudItem xs="6">
-            @* Registration form *@
-            <RegistrationForm/>
-            <MudText>New to ParkPlan? <MudLink @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>
+            <MudStack Class="justify-center align-center">
+                <RegistrationForm/>
+                <MudText>Already a member? <MudLink Class="cursor-pointer" @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>
+            </MudStack>
         </MudItem>
     }
     else
     {
         @* Login form *@
         <MudItem xs="6">
-            <MudPaper>
+            <MudStack Class="justify-center align-center">
                 <LoginForm/>
-                <MudText>New to ParkPlan? <MudLink @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>
-            </MudPaper>
+                <MudText>New to ParkPlan? <MudLink Class="cursor-pointer" @onclick="ToggleRegistrationForm">Click Here</MudLink></MudText>    
+            </MudStack>
         </MudItem>
     }
     

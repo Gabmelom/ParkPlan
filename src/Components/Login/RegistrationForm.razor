@@ -1,55 +1,55 @@
 @using System.ComponentModel.DataAnnotations
+@inject NavigationManager Nav
 
-<EditForm Model="@_model" OnValidSubmit="OnValidSubmit">
-<DataAnnotationsValidator/>
 <MudGrid>
     <MudItem xs="12">
-        <MudCard>
-            <MudCardContent>
-                <MudTextField Label="First name" HelperText="Max. 8 characters"
-                              @bind-Value="_model.Username" For="@(() => _model.Username)"/>
-                <MudTextField Label="Email" Class="mt-3"
-                              @bind-Value="_model.Email" For="@(() => _model.Email)"/>
-                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                              @bind-Value="_model.Password" For="@(() => _model.Password)" InputType="InputType.Password"/>
-                <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
-                              @bind-Value="_model.ConfirmPassword" For="@(() => _model.ConfirmPassword)" InputType="InputType.Password"/>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-            </MudCardActions>
-        </MudCard>
+        <MudForm @ref="_form">
+            <MudCard Elevation="0">
+                <MudCardContent>
+                    <MudTextField @bind-Value="Username" For="@(() => Username)"
+                                  Variant="Variant.Outlined"
+                                  Label="Choose username" 
+                                  HelperText="Max. 8 characters"/>
+                    <MudTextField @bind-Value="Email" For="@(() => Email)"
+                                  Label="Email" 
+                                  HelperText="Example: john@email.com"
+                                  Variant="Variant.Outlined"
+                                  Class="mt-3"/>
+                    <MudTextField @bind-Value="Password" For="@(() => Password)"
+                                  Label="Password" 
+                                  Variant="Variant.Outlined" 
+                                  HelperText="Choose a strong password"
+                                  InputType="InputType.Password"
+                                  Class="mt-3"/>
+                    <MudTextField @bind-Value="ConfirmPassword" For="@(() => ConfirmPassword)"
+                                  Label="Confirm Password" 
+                                  Variant="Variant.Outlined" 
+                                  HelperText="Repeat the password" 
+                                  InputType="InputType.Password"
+                                  Class="mt-3"/>
+                </MudCardContent>
+                <MudCardActions Class="justify-center">
+                    <div>
+                        <MudButton OnClick="@(RegisterUser)" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>    
+                    </div>
+                </MudCardActions>
+            </MudCard>
+        </MudForm>
     </MudItem>
 </MudGrid>
-</EditForm>
+
 @code {
-    RegisterAccountForm _model = new RegisterAccountForm();
     bool _success;
+    MudForm? _form;
+    
+    public string? Username { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+    public string? ConfirmPassword { get; set; }
 
-    public class RegisterAccountForm
+    public void RegisterUser()
     {
-        [Required]
-        [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
-        public string? Username { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
-
-        [Required]
-        [StringLength(30, ErrorMessage = "Password must be at least 8 characters long.", MinimumLength = 8)]
-        public string? Password { get; set; }
-
-        [Required]
-        [Compare(nameof(Password))]
-        public string? ConfirmPassword { get; set; }
-
-    }
-
-    private void OnValidSubmit(EditContext context)
-    {
-        _success = true;
-        StateHasChanged();
+        Nav.NavigateTo("/profile");
     }
 
 }
