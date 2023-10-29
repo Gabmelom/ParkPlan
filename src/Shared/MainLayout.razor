@@ -1,18 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="@_myCustomTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(_ => DrawerToggle())" />
-        <MudSpacer />
-        <MudText>Menu</MudText>
-    </MudAppBar>
+    <NavBar OnClick="@DrawerToggle"/>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" ClipMode="DrawerClipMode.Docked">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">ParkPlan</MudText>
+            <MudText Typo="Typo.h6">Menu</MudText>
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
@@ -30,4 +26,16 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    readonly MudTheme _myCustomTheme = new()
+    {
+        Palette = new Palette()
+        {
+            Primary = "#008080",
+            Secondary = "#D2DDD4",
+            AppbarBackground = "#D2DDD4",
+            AppbarText = "#171717",
+        }
+    };
+
 }
