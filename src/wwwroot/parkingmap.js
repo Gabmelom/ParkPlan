@@ -1,4 +1,7 @@
-﻿function initialize() { 
+﻿var map; // used by both functions
+
+function initialize() { 
+    // Remove unrelated icons from the map
     const styles = [
         {
             featureType: "poi",
@@ -10,20 +13,26 @@
             stylers: [{ visibility: "off" }],
         },
     ]
-    
-    var latlng = new google.maps.LatLng(45.4254741, -75.6920461);
-    var lotAlatlng = new google.maps.LatLng(45.4261269, -75.6906387);
-    var lotBlatlng = new google.maps.LatLng(45.4214847, -75.691800); 
+
+    // Locations of the markers and map centering
+    const startlatlng = new google.maps.LatLng(45.3875885, -75.6985907);
+    const destlatlng = new google.maps.LatLng(45.4254741, -75.6920461);
+    const lotAlatlng = new google.maps.LatLng(45.4261269, -75.6906387);
+    const lotBlatlng = new google.maps.LatLng(45.4214847, -75.691800);
+
     var options = { 
-        zoom: 15, center: latlng, 
+        zoom: 15, center: startlatlng, 
         mapTypeId: google.maps.MapTypeId.ROADMAP ,
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: false,
         styles: styles,
     }; 
-    var map = new google.maps.Map(document.getElementById("map"), options); 
 
+    // Initialize the map
+    map = new google.maps.Map(document.getElementById("map"), options); 
+
+    // Icons for the parking areas
     const iconSize = 40
     const iconA = {
         url: "https://cdn-icons-png.flaticon.com/512/3448/3448628.png", // url
@@ -32,7 +41,7 @@
         anchor: new google.maps.Point(iconSize / 2, iconSize), // anchor
         labelOrigin: new google.maps.Point(80, 45)
     };
-
+    
     const iconB = {
         url: "https://cdn-icons-png.flaticon.com/512/3448/3448628.png", // url
         scaledSize: new google.maps.Size(iconSize, iconSize), // scaled size
@@ -41,6 +50,7 @@
         labelOrigin: new google.maps.Point(20, 45)
     };
 
+    // Add the markers
     const lotAMarker = new google.maps.Marker({
         position: lotAlatlng,
         map,
@@ -56,10 +66,10 @@
     });
 
     const desinationMarker = new google.maps.Marker({
-        position: latlng,
+        position: destlatlng,
         map,
         icon: {
-            url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
             labelOrigin: new google.maps.Point(75, 32),
             size: new google.maps.Size(32, 32),
             anchor: new google.maps.Point(16, 32)
@@ -71,8 +81,9 @@
         }
     });
 
+    // This is the red circle at the bottom of desination marker
     var measle = new google.maps.Marker({
-        position: latlng,
+        position: destlatlng,
         map: map,
         icon: {
             url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
@@ -81,6 +92,7 @@
         }
     });
 
+    // Select the parking area when the marker is clicked
     lotAMarker.addListener("click", () => {
         DotNet.invokeMethodAsync("ParkPlan", "SelectParkingAsync", "CF Rideau Centre Parking");
     });
@@ -88,4 +100,11 @@
     lotBMarker.addListener("click", () => {
         DotNet.invokeMethodAsync("ParkPlan", "SelectParkingAsync", "City Hall Underground");
     });
+}
+
+// Recenter the map to the destination
+function updateLocation() {
+    var destlatlng = new google.maps.LatLng(45.4254741, -75.6920461);
+
+    map.setCenter(destlatlng);
 }

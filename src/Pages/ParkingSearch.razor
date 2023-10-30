@@ -4,45 +4,55 @@
 
 <div style="display: flex;">
     <MudText Typo="Typo.h5" Color="Color.Primary">Find Parking</MudText>
-    <MudTextField style="width: 400px;margin-right: 0px;margin-left: auto;" @bind-Value="SearchTerm" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
+
+    @* Search bar *@
+    <MudTextField style="width: 400px;margin-right: 0px;margin-left: auto;" @bind-Value="SearchTerm"  @onkeydown="OnKeyDown" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
 </div>
 
+@* *@
 <div style="display: flex;margin-top:10px">
+    @* Hide the cards when a parking lot is not selected *@
     @if (SelectedParking != null)
     {
-        <div style="width:38%">
+        <div style="width:38%;min-width:fit-content;">
+            @* Updates to show selected parking area *@
             <MudText Typo="Typo.subtitle1" Color="Color.Primary">Showing lots for "@SelectedParking"</MudText>
 
-            <MudCard Class="rounded-xl mud-theme-primary" Style="max-height:110px;margin-right:10px;">
+            @* The cards would be updated with the selected parking area, but are hardcoded in this prototype *@
+            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;background:">
                 <MudCardHeader>
-                    <CardHeaderActions>
-                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:{Colors.Teal.Darken3};margin-top:16px;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large" Color="Color.Secondary"/>
-                    </CardHeaderActions>
+                    <CardHeaderAvatar>
+                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
+                    </CardHeaderAvatar>
                     <CardHeaderContent>
-                        <MudText>Lot B - 40 Spots Available</MudText>
-                        <MudText Typo="Typo.body2">Monday - Friday</MudText>
-                        <MudText Typo="Typo.body2">8:00 AM - 8:00 PM</MudText>
-                        <MudText Typo="Typo.body2">$5/hour</MudText>
+                        <MudText Color="Color.Dark">Lot B - 40 Spots Available</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">Monday - Friday</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">8:00 AM - 8:00 PM</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">$5/hour</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
             </MudCard>
 
-            <MudCard Class="rounded-xl mud-theme-primary" Style="max-height:110px;margin-right:10px;margin-top:10px;border-radius=90px">
+            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;margin-top:10px;border-radius=90px">
                 <MudCardHeader>
-                    <CardHeaderActions>
-                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:{Colors.Teal.Darken3};margin-top:16px;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large" Color="Color.Secondary"/>
-                    </CardHeaderActions>
+                    <CardHeaderAvatar>
+                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
+                    </CardHeaderAvatar>
                     <CardHeaderContent>
-                        <MudText>Lot C - 40 Spots Available</MudText>
-                        <MudText Typo="Typo.body2">Monday - Friday</MudText>
-                        <MudText Typo="Typo.body2">8:00 AM - 8:00 PM</MudText>
-                        <MudText Typo="Typo.body2">$8/hour</MudText>
+                        <MudText Color="Color.Dark">Lot C - 40 Spots Available</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">Monday - Friday</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">8:00 AM - 8:00 PM</MudText>
+                        <MudText Color="Color.Dark" Typo="Typo.body2">$8/hour</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
             </MudCard>
 
+            @* This card is disabled because the lot has no spots *@
             <MudCard Class="rounded-xl" Style="@($"background:{Colors.Grey.Lighten1};max-height:110px;margin-right:10px;margin-top:10px;border-radius=90px")">
                 <MudCardHeader>
+                    <CardHeaderAvatar>
+                        <MudIconButton Class="cursor-default" Style="@($"color:{Colors.Shades.White}; background:{Colors.Grey.Darken2};")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
+                    </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText>Lot A - 0 Spots Available</MudText>
                         <MudText Typo="Typo.body2">Monday - Friday</MudText>
@@ -53,6 +63,7 @@
             </MudCard>
         </div>
     }
+
 
     <div id="map" style="height:550px;width:100%;"> </div>
 </div>
@@ -79,21 +90,34 @@
         } 
     }
 
-    void Search()
+    @* Recenters the map to the destination *@
+    private async Task Search()
     {
+        await JSRuntime.InvokeVoidAsync("updateLocation", null);
         SearchTerm = "";
     }
 
-    void SelectLot()
+    @* Link to the ReservationDetails page *@
+    private void SelectLot()
     {
          Nav.NavigateTo("/ReservationDetails");
     }
 
     [JSInvokable]
+    @* Update the selected parking lot. This is called by parkingmap.js *@
     public static Task SelectParkingAsync(string name)
     {
         SelectedParking = name;
         _parkingSearch?.StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    @* Make a search when the enter key is pressed *@
+    private async Task OnKeyDown(KeyboardEventArgs args) 
+    {
+        if (args.Key=="Enter") 
+        {
+            await Search();
+        }
     }
 }
