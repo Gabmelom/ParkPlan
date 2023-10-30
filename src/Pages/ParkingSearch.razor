@@ -6,7 +6,7 @@
     <MudText Typo="Typo.h5" Color="Color.Primary">Find Parking</MudText>
 
     @* Search bar *@
-    <MudTextField style="width: 400px;margin-right: 0px;margin-left: auto;" @bind-Value="SearchTerm"  @onkeydown="OnKeyDown" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
+    <MudTextField style="width: 400px;margin-right: 0;margin-left: auto;" @bind-Value="SearchTerm"  @onkeydown="OnKeyDown" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
 </div>
 
 <div style="display: flex;margin-top:10px">
@@ -17,7 +17,7 @@
             <MudText Typo="Typo.subtitle1" Color="Color.Primary">Showing lots for "@SelectedParking"</MudText>
 
             @* The cards would be updated with the selected parking area, but are hardcoded in this prototype *@
-            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;background:">
+            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;">
                 <MudCardHeader>
                     <CardHeaderAvatar>
                         <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
@@ -31,7 +31,7 @@
                 </MudCardHeader>
             </MudCard>
 
-            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;margin-top:10px;border-radius=90px">
+            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;margin-top:10px;">
                 <MudCardHeader>
                     <CardHeaderAvatar>
                         <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
