@@ -3,19 +3,32 @@
 
 <MudText Typo="Typo.h4" Color="Color.Primary">Vehicle Registration</MudText>
 
-<MudGrid Justify="Justify.Center">
-    <MudItem xs="6">
+<MudStack Justify="Justify.Center" Style="height:100%">
+    <MudGrid Justify="Justify.Center" Class="mt-16">
+        <MudItem xs="6">
             <MudStack>
                 <MudImage Src="Honda/civic_grey.png" Alt="Car" Elevation="0" Class="image" />
             </MudStack>
-    </MudItem>
-    @* Vehicle Information form *@
-        <MudItem xs="6">
-                <VehicleInformationForm/>
         </MudItem>
-</MudGrid>
+        @* Vehicle Information form *@
+        <MudItem xs="6">
+            <VehicleInformationForm />
+        </MudItem>
+        <MudButton Class="mt-10" Color="Color.Primary" Variant="Variant.Filled" OnClick="Save">
+            Save
+        </MudButton>
+    </MudGrid>
+</MudStack>
+
+
+
 
 @code {
-    
-    
+
+    private void Save()
+    {
+        // Code to execute when the button is clicked
+        // You can put your logic here
+    }
+
 }
