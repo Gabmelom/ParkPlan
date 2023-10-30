@@ -1,5 +1,34 @@
 @page "/profile"
-<h3>UserProfile</h3>
+
+<MudText Typo="Typo.h4" Color="Color.Primary">User Information</MudText>
+
+<MudStack>
+    <MudPaper Class="parkplan-card">
+        <MudStack Class="justify-center align-center py-4">
+            <MudImage Src="Dennis.jpg" Alt="Profile Picture" Class="profile-picture" ObjectFit="ObjectFit.None" ObjectPosition="ObjectPosition.Center"/>
+            <MudStack>
+                <MudText Typo="Typo.h6">Dennis Lacasse</MudText>
+                <MudText Typo="Typo.body2">Male, 19</MudText>
+                <MudText Typo="Typo.body2">Student</MudText>
+                <MudText Typo="Typo.body2">dennis.lac@gmail.com</MudText>
+            </MudStack>
+        </MudStack>
+    </MudPaper>
+</MudStack>
+
+<style>
+    .parkplan-card {
+        max-width: 400px;
+        aspect-ratio: 0.8;
+        background: var(--mud-palette-secondary);
+    }
+    
+    .profile-picture {
+        border-radius: 50%;
+        width: 60%;
+        height: auto;
+    }
+</style>
 
 @code {
     
