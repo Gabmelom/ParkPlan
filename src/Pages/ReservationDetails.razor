@@ -1,21 +1,18 @@
 @page "/ReservationDetails"
+@using ParkPlan.Components.ReservationDetails;
 @using ParkPlan.Data;
 @inject UserService UserService
 
-<h3>ReservationDetails</h3>
+<MudText Typo="Typo.h4" Color="Color.Primary">@(User.ParkingArea) - @(User.ParkingLot)</MudText>
 
-<MudDatePicker Label="Editable with Placeholder" Editable="true" @bind-Date="User.Date" Placeholder="Select Date" />
+<ReservationForm User="User"/>
 
 @code {
-
     private User User { get; set; }
-
-    DateTime? Date = DateTime.Today;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         User = await UserService.GetUserAsync();
     }
-
 }

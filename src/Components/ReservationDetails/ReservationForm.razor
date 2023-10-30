@@ -1,0 +1,54 @@
+﻿@using ParkPlan.Data;
+@inject UserService UserService
+@inject NavigationManager Nav
+
+<MudCard Class="rounded-xl mud-theme-secondary pa-4" Style="width:30%;min-width:fit-content;">
+    <MudCardContent>
+        <MudStack Spacing="8" Justify="Justify.Center" Style="align-items: center;">
+        
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                    <b>Date</b>
+                </MudText>
+                <MudDatePicker Style="width:100%;" Editable="true" @bind-Date="User.Date" Placeholder="Select Date" />
+            </MudItem>
+
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                    <b>From</b>
+                </MudText>
+                <MudTimePicker Style="width:100%;" AmPm="true" @bind-Time="User.From" />
+            </MudItem>
+
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                    <b>To</b>
+                </MudText>
+                <MudTimePicker Style="width:100%;" AmPm="true" @bind-Time="User.To" />
+            </MudItem>
+
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark">
+                    <b>Repeats</b>
+                </MudText>
+                <MudSelect T="string" @bind-Value="User.Repeats" Margin="Margin.Dense" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem T="string" Value="@("Does not repeat")" />
+                    <MudSelectItem T="string" Value="@("Daily")" />
+                    <MudSelectItem T="string" Value="@("Weekly")" />
+                </MudSelect>
+            </MudItem>
+
+            <MudButton Class="mt-10" Color="Color.Primary" Variant="Variant.Filled" Style="width:40%;min-width:fit-content;" OnClick="NavigateToPayment">Reserve</MudButton>
+        </MudStack>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public User User { get; set; }
+
+    private void NavigateToPayment()
+    {
+         Nav.NavigateTo("/Billing");
+    }
+}
