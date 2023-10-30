@@ -1,6 +1,21 @@
 @page "/VehicleInformation"
-<h3>VehicleInformation</h3>
+@using ParkPlan.Components.VehicleInformation
+
+<MudText Typo="Typo.h4" Color="Color.Primary">Vehicle Registration</MudText>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="6">
+            <MudStack>
+                <MudImage Src="Honda/civic_grey.png" Alt="Car" Elevation="0" Class="image" />
+            </MudStack>
+    </MudItem>
+    @* Vehicle Information form *@
+        <MudItem xs="6">
+                <VehicleInformationForm/>
+        </MudItem>
+</MudGrid>
 
 @code {
+    
     
 }

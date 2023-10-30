@@ -1,0 +1,80 @@
+﻿@using System;
+@using System.Collections.Generic;
+
+<MudStack Row="true">
+    <MudStack>
+            <FormField Label="Model" DropDownOptions=@GetOptions1("Model")/>
+            <FormField Label="Make" DropDownOptions=@GetMake("Make") />
+            <FormField Label="Year" DropDownOptions=@GetOptions1("Year") />
+
+
+    </MudStack>
+
+    <MudStack>
+        @foreach (var label in labelList2)
+        {
+            <FormField Label=@label isDropDown=@(label != "Serial")>
+
+            </FormField>
+        }
+    </MudStack>
+</MudStack>
+
+
+@code {
+
+    public List<string> labelList1 { get; set; } = new List<string>() 
+    {
+        "Model","Make","Year"
+    };
+
+    public List<string> labelList2 { get; set; } = new List<string>()
+    {
+        "Color","Type","Serial"
+    };
+
+
+    // public List<string> years { get; set; } = new List<string>()
+    // {
+    //     "2018","2019","2020","2021","2022,2023"
+    // };
+
+
+    // public List<string> makes { get; set; } = new List<string>() 
+    // { 
+    //     "Honda", "Hyundai", "Nissan" 
+    // };
+
+    public List<string> GetOptions1(string option)
+    {
+        return option switch
+        {
+            "Model" => new List<string>() { "Honda", "Hyundai", "Nissan" },
+            "Year" => new List<string>() { "2018","2019","2020","2021","2022","2023"},
+            _ => new List<string>() { "Options not available" }
+        };
+    }
+
+    public List<string> GetMake(string make)
+    {
+    return make switch
+    {
+        "Honda" => new List<string>() { "Civic", "HRV", "Passport" },
+        "Hyundai" => new List<string>() { "Elantra", "Kona", "Palisade", "Sonata", "Tucson" },
+        "Nissan" => new List<string>() { "GTR", "Sentra" },
+        _ => new List<string>() { "Make not supported" }
+    };
+    }
+
+    public List<string> GetColor(string make)
+    {
+        return make switch
+        {
+            "Honda" => new List<string>() { "Red", "Blue", "Silver", "White", "Grey", "Black" },
+            "Hyundai" => new List<string>() { "Silver", "Grey", "Black" },
+            "Nissan" => new List<string>() { "Silver","Black" },
+            _ => new List<string>() { "Color not available" }
+        };
+    }
+
+}

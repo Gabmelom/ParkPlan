@@ -9,9 +9,7 @@
     <MudTextField style="width: 400px;margin-right: 0px;margin-left: auto;" @bind-Value="SearchTerm"  @onkeydown="OnKeyDown" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
 </div>
 
-@* *@
 <div style="display: flex;margin-top:10px">
-    @* Hide the cards when a parking lot is not selected *@
     @if (SelectedParking != null)
     {
         <div style="width:38%;min-width:fit-content;">
