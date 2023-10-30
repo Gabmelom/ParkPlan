@@ -1,0 +1,45 @@
+@inject NavigationManager Nav
+
+<MudCard Elevation="0" Outlined="true" Class="rounded-xl">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Car profile 1</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="4">
+                <MudStack Row="true" >
+                    <MudText>Make:</MudText>
+                    <MudText>Honda</MudText>
+                </MudStack>
+                <MudStack Row="true" >
+                    <MudText>Make:</MudText>
+                    <MudText>Honda</MudText>
+                </MudStack>    
+            </MudItem>
+            <MudItem xs="4">
+                <MudStack Row="true" >
+                        <MudText>Make:</MudText>
+                        <MudText>Honda</MudText>
+                    </MudStack>                        
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+    <MudCardActions Class="d-flex justify-end">
+        <MudButton Class="align-self-end rounded-xl"
+                   Style="width: 100px"
+                   DisableElevation="true"
+                   Variant="Variant.Filled"
+                   Color="Color.Secondary"
+                   OnClick="@(() => Nav.NavigateTo("/VehicleInformation"))"
+                   >
+                   Edit</MudButton>
+    </MudCardActions>
+</MudCard>
+@code {
+    
+}

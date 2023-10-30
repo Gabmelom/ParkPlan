@@ -1,24 +1,45 @@
 @page "/profile"
 
+@inject NavigationManager Nav
+
 <MudText Typo="Typo.h4" Color="Color.Primary">User Information</MudText>
 
-<MudStack>
-    <MudPaper Class="parkplan-card">
-        <MudStack Class="justify-center align-center py-4">
-            <MudImage Src="Dennis.jpg" Alt="Profile Picture" Class="profile-picture" ObjectFit="ObjectFit.None" ObjectPosition="ObjectPosition.Center"/>
-            <MudStack>
-                <MudText Typo="Typo.h6">Dennis Lacasse</MudText>
-                <MudText Typo="Typo.body2">Male, 19</MudText>
-                <MudText Typo="Typo.body2">Student</MudText>
-                <MudText Typo="Typo.body2">dennis.lac@gmail.com</MudText>
+<MudGrid>
+    <MudItem xs="12" sm="12" md="6" lg="3" Class="d-flex justify-center">
+        <MudPaper Class="parkplan-card rounded-xl">
+            <MudStack Class="justify-space-around align-center py-4" Style="height: 100%">
+                <MudImage Src="Dennis.jpg" 
+                          Alt="Profile Picture" 
+                          Class="profile-picture" 
+                          ObjectFit="ObjectFit.Cover" 
+                          ObjectPosition="ObjectPosition.Center"/>
+                <MudStack>
+                    <MudText Align="Align.Center" Typo="Typo.h6">Dennis Lacasse</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.body2">Male, 19</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.body2">Student</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.body2">dennis.lac@gmail.com</MudText>
+                </MudStack>
             </MudStack>
+        </MudPaper>    
+    </MudItem>
+    <MudItem xs="12" sm="12" md="6" lg="7">
+        <MudStack>
+            
         </MudStack>
-    </MudPaper>
-</MudStack>
+    </MudItem>
+    <MudItem xs="12" lg="2">
+        <MudStack AlignItems="AlignItems.End">
+            <MudText Typo="Typo.h6" Color="Color.Primary">Quick Links</MudText>
+            <MudLink Typo="Typo.body2" Color="Color.Default">Add new vehicle</MudLink>
+            <MudLink Typo="Typo.body2" Color="Color.Default">Manage parking permits</MudLink>
+            <MudLink Typo="Typo.body2" Color="Color.Default">Add payment method</MudLink>
+        </MudStack>
+    </MudItem>
+</MudGrid>
 
 <style>
     .parkplan-card {
-        max-width: 400px;
+        width: 350px;
         aspect-ratio: 0.8;
         background: var(--mud-palette-secondary);
     }
@@ -26,10 +47,11 @@
     .profile-picture {
         border-radius: 50%;
         width: 60%;
-        height: auto;
+        aspect-ratio: 1;
     }
 </style>
 
 @code {
+
     
 }
