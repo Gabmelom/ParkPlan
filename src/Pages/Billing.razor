@@ -1,6 +1,17 @@
 @page "/Billing"
+@using ParkPlan.Data;
+@inject UserService UserService
+
 <h3>Billing</h3>
 
+<MudDatePicker Label="Editable with Placeholder" Editable="true" @bind-Date="User.Date" Placeholder="Select Date" />
+
 @code {
-    
+    private User User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        User = await UserService.GetUserAsync();
+    }
 }
