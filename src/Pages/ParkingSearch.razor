@@ -1,9 +1,11 @@
 @page "/ParkingSearch"
+@using ParkPlan.Data;
+@inject UserService UserService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Nav
 
 <div style="display: flex;">
-    <MudText Typo="Typo.h5" Color="Color.Primary">Find Parking</MudText>
+    <MudText Typo="Typo.h4" Color="Color.Primary">Find Parking</MudText>
 
     @* Search bar *@
     <MudTextField style="width: 400px;margin-right: 0;margin-left: auto;" @bind-Value="SearchTerm"  @onkeydown="OnKeyDown" Placeholder="Search" Variant="Variant.Outlined" Margin="Margin.Dense" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="Search"></MudTextField>
@@ -17,10 +19,10 @@
             <MudText Typo="Typo.subtitle1" Color="Color.Primary">Showing lots for "@SelectedParking"</MudText>
 
             @* The cards would be updated with the selected parking area, but are hardcoded in this prototype *@
-            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;">
+            <MudCard @onclick='()=>SelectLot("Lot B")' Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
+                        <MudIconButton @onclick='()=>SelectLot("Lot B")' Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Color="Color.Dark">Lot B - 40 Spots Available</MudText>
@@ -31,10 +33,10 @@
                 </MudCardHeader>
             </MudCard>
 
-            <MudCard @onclick="SelectLot" Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;margin-top:10px;">
+            <MudCard @onclick='()=>SelectLot("Lot B")' Class="rounded-xl mud-theme-secondary cursor-pointer" Style="max-height:110px;margin-right:10px;margin-top:10px;">
                 <MudCardHeader>
                     <CardHeaderAvatar>
-                        <MudIconButton @onclick="SelectLot" Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
+                        <MudIconButton @onclick='()=>SelectLot("Lot B")' Style="@($"color:{Colors.Shades.White}; background:#008080;")" Icon="@Icons.Material.Filled.LocationOn" Size="Size.Large"/>
                     </CardHeaderAvatar>
                     <CardHeaderContent>
                         <MudText Color="Color.Dark">Lot C - 40 Spots Available</MudText>
@@ -80,12 +82,15 @@
 
     public static string? SelectedParking { get; set; }
 
+    private User User { get; set; }
+
     protected override async Task OnAfterRenderAsync ( bool firstRender ) 
     { 
         if (firstRender) 
         { 
             await JSRuntime.InvokeVoidAsync("initialize", null); 
-        } 
+        }
+        User = await UserService.GetUserAsync();
     }
 
     @* Recenters the map to the destination *@
@@ -96,9 +101,11 @@
     }
 
     @* Link to the ReservationDetails page *@
-    private void SelectLot()
+    private void SelectLot(string name)
     {
-         Nav.NavigateTo("/ReservationDetails");
+        User.ParkingArea = SelectedParking;
+        User.ParkingLot = name;
+        Nav.NavigateTo("/ReservationDetails");
     }
 
     [JSInvokable]
