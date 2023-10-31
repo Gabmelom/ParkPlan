@@ -6,7 +6,10 @@
 
 <MudLayout>
     <NavBar OnClick="@DrawerToggle"/>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" ClipMode="DrawerClipMode.Docked">
+    <MudDrawer @bind-Open="_drawerOpen" 
+               Elevation="1" 
+               Variant="@DrawerVariant.Responsive"
+               Breakpoint="Breakpoint.Lg">
         <MudDrawerHeader>
             <MudText Typo="Typo.h6">Menu</MudText>
         </MudDrawerHeader>
@@ -35,6 +38,7 @@
             Secondary = "#D2DDD4",
             AppbarBackground = "#D2DDD4",
             AppbarText = "#171717",
+            SecondaryContrastText = "#171717",
         }
     };
 
