@@ -19,13 +19,13 @@
             <MudItem xs="12" md="6" lg="5">
                 <MudStack Row="true" Class="flex-grow-1">
                     <MudStack Class="flex-grow-1">
-                        <FormField Label="Model" DropDownOptions=@GetOptions("Model") DropdownValueChanged="ModelSelectedChanged"/>
-                        <FormField Label="Make" DropDownOptions="@GetMake(ModelSelected)"  DropdownValueChanged="MakeSelectedChanged"/>
+                        <FormField Label="Make" DropDownOptions=@GetOptions("Make") DropdownValueChanged="MakeSelectedChanged"/>
+                        <FormField Label="Model" DropDownOptions="@GetModel(MakeSelected)"  DropdownValueChanged="ModelSelectedChanged"/>
                         <FormField Label="Year" DropDownOptions=@GetOptions("Year") />
                     </MudStack>
                 
                     <MudStack Class="flex-grow-1">
-                		<FormField Label="Color" DropDownOptions="@GetColor(MakeSelected)" DropdownValueChanged="ColorSelectedChanged"/>
+                		<FormField Label="Color" DropDownOptions="@GetColor(ModelSelected)" DropdownValueChanged="ColorSelectedChanged"/>
                         <FormField Label="Type" DropDownOptions=@GetOptions("Type") />
                         <FormField Label="Serial" IsDropDown="false" />
                 	</MudStack>
@@ -59,14 +59,14 @@
 
     public static List<string> GetOptions(string option) => option switch
     {
-        "Model" => new List<string>() { "Honda", "Hyundai", "Nissan" },
+        "Make" => new List<string>() { "Honda", "Hyundai", "Nissan" },
         "Year" => new List<string>() { "2018","2019","2020","2021","2022","2023"},
         "Type" => new List<string>() { "Sedan", "SUV", "Truck" },
         _ => new List<string>() { }
         };
     
 
-    public static List<string> GetMake(string model) => model switch
+    public static List<string> GetModel(string make) => make switch
     {
         "Honda" => new List<string>() { "Civic", "HRV", "Passport" },
         "Hyundai" => new List<string>() { "Elantra", "Kona", "Palisade", "Sonata", "Tucson" },
@@ -91,15 +91,15 @@
         };
     
 
-    public void ModelSelectedChanged(string value)
-    {
-        ModelSelected = value;
-        MakeSelectedChanged("");
-    }
-
     public void MakeSelectedChanged(string value)
     {
         MakeSelected = value;
+        ModelSelectedChanged("");
+    }
+    
+    public void ModelSelectedChanged(string value)
+    {
+        ModelSelected = value;
         ColorSelectedChanged("");
     }
 
@@ -112,7 +112,7 @@
     private void UpdateImage()
     {
         // Use the selected values to determine the image to display
-        ImgSrc = $"{ModelSelected}/{MakeSelected.ToLowerInvariant()}_{ColorSelected.ToLowerInvariant()}.png";
+        ImgSrc = $"{MakeSelected}/{ModelSelected.ToLowerInvariant()}_{ColorSelected.ToLowerInvariant()}.png";
         
         // If the image doesn't exist, display the default image
         if (!File.Exists($"wwwroot/{ImgSrc}"))
