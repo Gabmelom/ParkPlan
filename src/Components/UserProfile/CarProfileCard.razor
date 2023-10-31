@@ -1,42 +1,57 @@
 @inject NavigationManager Nav
 
 <MudCard Elevation="0" Outlined="true" Class="rounded-xl">
-    <MudCardHeader>
+    <MudCardHeader Class="pb-0">
         <CardHeaderContent>
-            <MudText Typo="Typo.h6" Color="Color.Primary">Car profile 1</MudText>
+            <MudText Typo="Typo.h6" Color="Color.Primary" Class="ml-6">Car profile 1</MudText>
         </CardHeaderContent>
-        <CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
-        </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent>
-        <MudGrid>
-            <MudItem xs="4">
-                <MudStack Row="true" >
-                    <MudText>Make:</MudText>
-                    <MudText>Honda</MudText>
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12" lg="8">
+                <MudStack Row="true" Style="height: 100%" Class="ml-6" Spacing="16">
+                    <MudStack Row="true" Style="height: 100%" Spacing="16">
+                        <MudStack>
+                            @foreach (var label in new[] { "Make", "Model", "Year", "Color" })
+                            {
+                                <MudText><b>@label:</b></MudText>
+                            }
+                        </MudStack>
+                        <MudStack>
+                            @foreach (var item in new[] { "Honda", "Civic", "2023", "Red" })
+                            {
+                                <MudText>@item</MudText>
+                            }
+                        </MudStack>
+                    </MudStack>
+                    <MudStack Row="true" Style="height: 100%" Spacing="16">
+                        <MudStack>
+                            @foreach (var label in new[] { "Plate", "Type" })
+                            {
+                                <MudText><b>@label:</b></MudText>
+                            }
+                        </MudStack>
+                        <MudStack>
+                            @foreach (var item in new[] { "YLEP456", "Sedan" })
+                            {
+                                <MudText>@item</MudText>
+                            }
+                        </MudStack>
+                    </MudStack>
                 </MudStack>
-                <MudStack Row="true" >
-                    <MudText>Make:</MudText>
-                    <MudText>Honda</MudText>
-                </MudStack>    
             </MudItem>
-            <MudItem xs="4">
-                <MudStack Row="true" >
-                        <MudText>Make:</MudText>
-                        <MudText>Honda</MudText>
-                    </MudStack>                        
+            <MudItem xs="6" lg="4">
+                <MudImage Alt="Car Model" Src="Honda/civic_red.png" Fluid="true" />
             </MudItem>
         </MudGrid>
     </MudCardContent>
     <MudCardActions Class="d-flex justify-end">
-        <MudButton Class="align-self-end rounded-xl"
+        <MudButton Class="align-self-end rounded-xl mr-6"
                    Style="width: 100px"
                    DisableElevation="true"
                    Variant="Variant.Filled"
                    Color="Color.Secondary"
-                   OnClick="@(() => Nav.NavigateTo("/VehicleInformation"))"
-                   >
+                   OnClick="@(() => Nav.NavigateTo("/VehicleInformation"))">
                    Edit</MudButton>
     </MudCardActions>
 </MudCard>

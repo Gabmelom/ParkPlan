@@ -1,0 +1,42 @@
+<MudCard Elevation="0" Outlined="true" Class="rounded-xl">
+    <MudCardHeader Class="pb-0">
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6" Color="Color.Primary" Class="ml-6">Default payment method</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudGrid>
+            <MudItem xs="8">
+                <MudStack Row="true" Style="height: 100%" Class="ml-6" Spacing="16">
+                    <MudStack>
+                        @foreach (var label in new[] { "Card type", "Card #", "Exp. date", "Cardholder" })
+                        {
+                            <MudText><b>@label:</b></MudText>
+                        }
+                    </MudStack>
+                    <MudStack>
+                       @foreach (var item in new[] { "Master card", "5412 **** **** **56", "10/25", "Dennis Lacasse" })
+                       {
+                           <MudText>@item</MudText>
+                       }
+                    </MudStack>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="4" Class="d-flex justify-end align-start">
+                <MudImage Alt="Car Model" Src="mastercard_logo.png" Fluid="true" Class="pr-6"/>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+    <MudCardActions Class="d-flex justify-end">
+        <MudButton Class="align-self-end rounded-xl mr-6"
+                   Style="width: 100px"
+                   DisableElevation="true"
+                   Variant="Variant.Filled"
+                   Color="Color.Secondary">
+                   Edit</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    
+}
