@@ -28,9 +28,15 @@ function initialize() {
         fullscreenControl: false,
         styles: styles,
     }; 
+    
+    // Get map element or return if not found
+    var mapElement = document.getElementById("map");
+    if (!mapElement) {
+        return;
+    }
 
     // Initialize the map
-    map = new google.maps.Map(document.getElementById("map"), options); 
+    map = new google.maps.Map(mapElement, options); 
 
     // Icons for the parking areas
     const iconSize = 40

@@ -49,8 +49,9 @@
 </MudCard>
 
 @code {
+
     [Parameter]
-    public User User { get; set; }
+    public User User { get; set; } = null!;
 
     @* Return to reservation details page *@
     private void NavigateToReservation()

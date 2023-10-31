@@ -15,6 +15,8 @@
         public string? ParkingArea { get; set; }
 
         public string? ParkingLot { get; set; }
+        
+        public string? ParkingSpot { get; set; }
 
         public string? FirstName { get; set; } = "Dennis";
 

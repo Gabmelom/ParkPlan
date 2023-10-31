@@ -1,18 +1,97 @@
 @page "/ReservationDetails"
 @using ParkPlan.Components.ReservationDetails;
 @using ParkPlan.Data;
+@using MudBlazor.Utilities
 @inject UserService UserService
 
-<MudText Typo="Typo.h4" Color="Color.Primary">@(User.ParkingArea) - @(User.ParkingLot)</MudText>
+<MudText Typo="Typo.h4" Color="Color.Primary">@Title</MudText>
 
-<ReservationForm User="User"/>
+<MudGrid Justify="Justify.Center">
+    <MudItem md="4">
+        <ReservationForm User="User"/>
+    </MudItem>
+    <MudItem md="8" Class="d-flex justify-center">
+        <MudStack>
+            <MudStack Row="true" Justify="Justify.SpaceAround" Style="width: 100%">
+                <MudStack Row="true">
+                    <MudText><b>Available</b></MudText>
+                    <MudIcon Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.Circle"/>
+                </MudStack>
+                <MudStack Row="true">
+                    <MudText><b>Not available</b></MudText>
+                    <MudIconButton Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.Circle" Disabled="true"/>
+                </MudStack>
+            </MudStack>
+            <div style="position:relative; height: fit-content">
+                <MudImage Src="parking_plan.png" Fluid="true"/>
+                @for (var i = 0; i < 29; i++)
+                {
+                    var spot = i;
+                    <MudIconButton
+                        Size="Size.Small"
+                        Icon="@Icons.Material.Filled.Circle"
+                        Color="Color.Primary"
+                        Disabled="@(SpotsTaken.Contains(spot))"
+                        aria-label=@($"parking spot {spot} marker")
+                        Style=@GetParkingMarkerStyle(spot)
+                        OnClick=@(() => ParkingSpotClicked(spot))>
+                    </MudIconButton>
+                }
+            </div>
+        </MudStack>
+    </MudItem>
+</MudGrid>
 
 @code {
-    private User User { get; set; }
+    private User? User { get; set; }
+    private int SpotSelected { get; set; }
+    private int[] SpotsTaken => new[] { 3, 7, 12, 1, 21, 19, 6, 17, 28, 4, 14, 23, 8, 11, 27, 9, 16 };
+    
+    private string Title => User?.ParkingArea is null ? "Reservation Details" : User?.ParkingArea +"-"+ User?.ParkingLot;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         User = await UserService.GetUserAsync();
+    }
+
+    private string GetParkingMarkerStyle(int spot)
+    {
+        var style = "";
+        if (spot is >=0 and <14)
+        {
+            style = new StyleBuilder()
+                .AddStyle("position", "absolute")
+                .AddStyle("top", $"{51+0.4*spot}%")
+                .AddStyle("right", $"{23.5+3.8*spot}%")
+                .AddStyle("z-index", "50")
+                .Build();
+        }
+        if (spot is >=14 and <30)
+        {
+            style = new StyleBuilder()
+                .AddStyle("position", "absolute")
+                .AddStyle("top", $"{46.2-0.4*spot}%")
+                .AddStyle("right", $"{74.4-3.8*(spot-14)}%")
+                .AddStyle("z-index", "50")
+                .Build();
+        }
+        // Add outline to selected spot, add white blur to make it shiny
+        if (spot == SpotSelected)
+        {
+            style += new StyleBuilder()
+                .AddStyle("box-shadow", "0 0 1px 2px white, 0 0 1px 4px var(--mud-palette-info)")
+                .Build();
+        }
+        return style;
+    }
+    
+    
+
+    private void ParkingSpotClicked(int spot)
+    {
+        SpotSelected = spot;
+        if (User != null) User.ParkingSpot = $"Parking spot {spot+1}";
+        StateHasChanged();
     }
 }
