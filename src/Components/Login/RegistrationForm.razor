@@ -1,4 +1,6 @@
 @using System.ComponentModel.DataAnnotations
+@using ParkPlan.Data;
+@inject UserService UserService
 @inject NavigationManager Nav
 
 <MudGrid>
@@ -41,7 +43,7 @@
 @code {
     bool _success;
     MudForm? _form;
-    
+
     public string? Username { get; set; }
     public string? Email { get; set; }
     public string? Password { get; set; }
@@ -49,7 +51,8 @@
 
     public void RegisterUser()
     {
-        Nav.NavigateTo("/profile");
+        UserService.SetUsername(Username);
+        Nav.NavigateTo("/profile", true);
     }
 
 }

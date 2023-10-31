@@ -2,6 +2,8 @@
 {
     public class User
     {
+        public string? Username { get; set; }
+
         public DateTime? Date { get; set; }
 
         public TimeSpan? From { get; set; }

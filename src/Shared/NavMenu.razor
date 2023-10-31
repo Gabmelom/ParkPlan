@@ -1,8 +1,24 @@
-﻿<MudNavMenu>
+﻿@using ParkPlan.Data;
+@inject UserService UserService
+
+<MudNavMenu>
     <MudNavLink Href="login" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Login</MudNavLink>
-    <MudNavLink Href="profile" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">User Profile</MudNavLink>
-    <MudNavLink Href="ParkingSearch" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Search">Parking Search</MudNavLink>
-    <MudNavLink Href="VehicleInformation" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DirectionsCar">Vehicle Information</MudNavLink>
-    <MudNavLink Href="ReservationDetails" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LocalParking">Reservation Details</MudNavLink>
-    <MudNavLink Href="Billing" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ShoppingCart">Billing</MudNavLink>
+    @if(User?.Username != null)
+    {
+        <MudNavLink Href="profile" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">User Profile</MudNavLink>
+        <MudNavLink Href="ParkingSearch" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Search">Parking Search</MudNavLink>
+        <MudNavLink Href="VehicleInformation" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DirectionsCar">Vehicle Information</MudNavLink>
+        <MudNavLink Href="ReservationDetails" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LocalParking">Reservation Details</MudNavLink>
+        <MudNavLink Href="Billing" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ShoppingCart">Billing</MudNavLink>
+    }
 </MudNavMenu>
+
+@code {
+    private User? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        User = await UserService.GetUserAsync();
+    }
+}
