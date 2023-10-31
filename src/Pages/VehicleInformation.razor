@@ -1,34 +1,125 @@
-@page "/VehicleInformation"
 @using ParkPlan.Components.VehicleInformation
+
+@page "/VehicleInformation"
+@inject NavigationManager Nav
 
 <MudText Typo="Typo.h4" Color="Color.Primary">Vehicle Registration</MudText>
 
-<MudStack Justify="Justify.Center" Style="height:100%">
-    <MudGrid Justify="Justify.Center" Class="mt-16">
-        <MudItem xs="6">
-            <MudStack>
-                <MudImage Src="Honda/civic_grey.png" Alt="Car" Elevation="0" Class="image" />
-            </MudStack>
-        </MudItem>
-        @* Vehicle Information form *@
-        <MudItem xs="6">
-            <VehicleInformationForm />
-        </MudItem>
-        <MudButton Class="mt-10" Color="Color.Primary" Variant="Variant.Filled" OnClick="Save">
-            Save
-        </MudButton>
-    </MudGrid>
+<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Style="height:100%" Class="mt-16">
+    <MudText Typo="Typo.h5" Color="Color.Primary">Car profile 1</MudText>
+
+    @* Vehicle Information form + Model *@
+    <CascadingValue Value="ImgSrc">
+        <MudGrid Justify="Justify.Center" Class="mt-16">
+            <MudItem xs="12" md="6" lg="5">
+                <MudStack Style="height: 100%" Justify="Justify.Center">
+                    <MudImage Class="m-auto car-image" Src="@ImgSrc" Alt="Car model" Elevation="0" Fluid="true" />
+                </MudStack>
+            </MudItem>
+            <MudItem xs="12" md="6" lg="5">
+                <MudStack Row="true" Class="flex-grow-1">
+                    <MudStack Class="flex-grow-1">
+                        <FormField Label="Model" DropDownOptions=@GetOptions("Model") DropdownValueChanged="ModelSelectedChanged"/>
+                        <FormField Label="Make" DropDownOptions="@GetMake(ModelSelected)"  DropdownValueChanged="MakeSelectedChanged"/>
+                        <FormField Label="Year" DropDownOptions=@GetOptions("Year") />
+                    </MudStack>
+                
+                    <MudStack Class="flex-grow-1">
+                		<FormField Label="Color" DropDownOptions="@GetColor(MakeSelected)" DropdownValueChanged="ColorSelectedChanged"/>
+                        <FormField Label="Type" DropDownOptions=@GetOptions("Type") />
+                        <FormField Label="Serial" IsDropDown="false" />
+                	</MudStack>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </CascadingValue>
+
+    <MudButton Class="mt-10"
+               Color="Color.Primary"
+               Variant="Variant.Filled"
+               Style="min-width: 100px"
+               OnClick="@(() => Nav.NavigateTo("/profile"))">
+        Save
+    </MudButton>
 </MudStack>
 
-
+<style>
+    .car-image {
+        aspect-ratio: 2.4;
+    }
+</style>
 
 
 @code {
+    public string ImgSrc { get; set; } = "vehicle-none.png";
+    
+    public string ModelSelected = "";
+    public string MakeSelected = "";
+    public string ColorSelected = "";
 
-    private void Save()
+    public static List<string> GetOptions(string option) => option switch
     {
-        // Code to execute when the button is clicked
-        // You can put your logic here
+        "Model" => new List<string>() { "Honda", "Hyundai", "Nissan" },
+        "Year" => new List<string>() { "2018","2019","2020","2021","2022","2023"},
+        "Type" => new List<string>() { "Sedan", "SUV", "Truck" },
+        _ => new List<string>() { }
+        };
+    
+
+    public static List<string> GetMake(string model) => model switch
+    {
+        "Honda" => new List<string>() { "Civic", "HRV", "Passport" },
+        "Hyundai" => new List<string>() { "Elantra", "Kona", "Palisade", "Sonata", "Tucson" },
+        "Nissan" => new List<string>() { "GTR", "Sentra" },
+        _ => new List<string>() { }
+        };
+    
+    public static List<string> GetColor(string make) => make switch
+    {
+        "Civic" => new List<string>() { "Red", "White", "Grey" },
+        "HRV" => new List<string>() { "Red", "Blue", "Silver", "Black" },
+        "Passport" => new List<string>() { "Red", "Silver", "White", "Black" },
+        "Elantra" => new List<string>() { "Silver" },
+        "Kona" => new List<string>() { "White" },
+        "Palisade" => new List<string>() { "Black" },
+        "Sonata" => new List<string>() { "Grey" },
+        "Tucson" => new List<string>() { "Black" },
+        "GTR" => new List<string>() { "Silver" },
+        "Sentra" => new List<string>() { "Grey" },
+        
+        _ => new List<string>() { }
+        };
+    
+
+    public void ModelSelectedChanged(string value)
+    {
+        ModelSelected = value;
+        MakeSelectedChanged("");
+    }
+
+    public void MakeSelectedChanged(string value)
+    {
+        MakeSelected = value;
+        ColorSelectedChanged("");
+    }
+
+    public void ColorSelectedChanged(string value)
+    {
+        ColorSelected = value;
+        UpdateImage();
+    }
+
+    private void UpdateImage()
+    {
+        // Use the selected values to determine the image to display
+        ImgSrc = $"{ModelSelected}/{MakeSelected.ToLowerInvariant()}_{ColorSelected.ToLowerInvariant()}.png";
+        
+        // If the image doesn't exist, display the default image
+        if (!File.Exists($"wwwroot/{ImgSrc}"))
+        {
+            ImgSrc = "vehicle-none.png";
+        }
+        StateHasChanged();
     }
 
 }
