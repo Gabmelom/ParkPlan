@@ -4,6 +4,7 @@
     // Default values are used to simulate an existing profile
     public class User
     {
+        public string? Username { get; set; }
         public DateTime? Date { get; set; } = DateTime.Today;
 
         public TimeSpan? From { get; set; } = DateTime.Now.TimeOfDay;

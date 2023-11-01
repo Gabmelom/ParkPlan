@@ -1,4 +1,6 @@
 @using System.ComponentModel.DataAnnotations
+@using ParkPlan.Data;
+@inject UserService UserService
 @inject NavigationManager Nav
 
 <MudGrid>
@@ -19,7 +21,7 @@
             </MudCardContent>
             <MudCardActions Class="justify-center">
                 <div>
-                    <MudButton OnClick="@(() => Nav.NavigateTo("/profile"))" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>    
+                    <MudButton OnClick="@NavigateToProfile" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
                 </div>
             </MudCardActions>
         </MudCard>
@@ -51,8 +53,8 @@
             PasswordInput = InputType.Text;
         }
     }
-    
-    
+
+
 
     public class LoginFormModel
     {
@@ -64,5 +66,11 @@
     {
         _success = true;
         StateHasChanged();
+    }
+
+    private void NavigateToProfile()
+    {
+        UserService.SetUsername(_model.Username);
+        Nav.NavigateTo("/profile", true);
     }
 }
