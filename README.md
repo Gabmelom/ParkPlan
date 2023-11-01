@@ -25,8 +25,8 @@ Step 3: The command prompt will display the port used (by default its localhost:
 ### Method 3
 
 Step 1: Download visual studio 2022 community free edition Install “ASP.Net and web development” from the Workloads tab when prompted or from Tools > Get Tools and Features
-Visual studio download: https://visualstudio.microsoft.com/downloads/
-Visual studio guide:https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70#install-with-visual-studio
+- Visual studio download: https://visualstudio.microsoft.com/downloads/
+- Visual studio guide: https://learn.microsoft.com/en-us/dotnet/core/install/windows?tabs=net70#install-with-visual-studio
 
 Step 2: Choose IIS Express or ParkPlan configurations and press the play button to run the code
 
