@@ -1,17 +1,53 @@
 @page "/Billing"
+@using ParkPlan.Components.Billing;
 @using ParkPlan.Data;
+
 @inject UserService UserService
 
-<h3>Billing</h3>
+<MudText Typo="Typo.h4" Color="Color.Primary">Confirm Reservation</MudText>
 
-<MudDatePicker Label="Editable with Placeholder" Editable="true" @bind-Date="User.Date" Placeholder="Select Date" />
+<MudStack Row="true">
+    <MudItem>
+        <MudText Typo="Typo.h6" Color="Color.Primary">Reservation Details</MudText>
+
+        @* Reservation details card *@
+        <ReservationTime User="User"/>
+    </MudItem>
+
+    <MudDivider Vertical="true" FlexItem="true" Class="mr-10 ml-10" />
+
+    <MudStack Style="width:40%">
+        <MudText Typo="Typo.h6" Color="Color.Primary">Billing Information</MudText>
+
+        @* Billing information card *@
+        <BillingInformation User="User"/>
+
+        @* Confirm button *@
+        <MudButton OnClick="ConfirmPayment" Class="mt-4" Color="Color.Primary" Variant="Variant.Filled" Style="width:40%;min-width:fit-content;margin-right: 0;margin-left: auto;">Confirm</MudButton>
+
+        @* Payment successful notification *@
+        @if(PaymentSuccess)
+        {
+            <MudAlert Severity="Severity.Success">Payment Successful</MudAlert>
+        }
+
+    </MudStack>
+</MudStack>
 
 @code {
-    private User User { get; set; }
+    private User User { get; set; } = null!;
+
+    private bool PaymentSuccess { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         User = await UserService.GetUserAsync();
+    }
+
+    @* Simulate payment *@
+    private void ConfirmPayment()
+    {
+        PaymentSuccess = true;
     }
 }

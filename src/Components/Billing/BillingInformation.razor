@@ -1,0 +1,197 @@
+﻿@using ParkPlan.Data;
+@inject UserService UserService
+
+<MudCard Elevation="0" Outlined="true" Class="rounded-xl">
+    <MudCardContent>
+        <MudItem Class="mb-10" Style="">
+            <MudText Typo="Typo.body1" Color="Color.Dark">
+                <b>Select Payment Method</b>
+            </MudText>
+            <MudSelect T="string" ValueChanged="Value => SetPaymentMethod(Value)" Margin="Margin.Dense" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                <MudSelectItem T="string" Value="@("Card ending in **56")" />
+                <MudSelectItem T="string" Value="NewCardText" />
+            </MudSelect>
+                
+            @* Hide credit card information for saved payment *@
+            @if(PaymentMethod == NewCardText)
+            {
+                <MudGrid Style="">
+                    <MudItem xs="12">
+                        <MudTextField Mask="@(new PatternMask("0000 0000 0000 0000"))" Label="Credit Card Number" 
+                                        @bind-Value="Card"  Variant="@Variant.Text" Clearable />
+                    </MudItem>
+	                <MudItem xs="6">
+                        <MudTextField Mask="@(new DateMask("MM/YY", 'Y', 'M'))" Label="Expires" 
+                                        @bind-Value="Expires"  Variant="@Variant.Text" />
+                    </MudItem>
+	                <MudItem xs="6">
+                        <MudTextField Mask="@(new PatternMask("000"))" Label="CVC" 
+                                        @bind-Value="Cvc"  Variant="@Variant.Text" />
+                    </MudItem>
+                </MudGrid>
+            }
+        </MudItem>
+
+
+        <MudGrid Class="justify-space-between">
+            <MudItem xs="6">
+                <MudStack  Spacing="8">
+                    @* Name *@
+                    <MudStack Row="true">
+                        <MudItem>
+                            <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                                <b>First Name</b>
+                            </MudText>
+                            <MudTextField @bind-Value="FirstName"></MudTextField>
+                        </MudItem>
+
+                        <MudItem>
+                            <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                                <b>Last Name</b>
+                            </MudText>
+                            <MudTextField @bind-Value="LastName"></MudTextField>
+                        </MudItem>
+                    </MudStack>
+
+                    @* Address1 *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>Billing Address Line 1</b>
+                        </MudText>
+                        <MudTextField @bind-Value="BillingAddress1"></MudTextField>
+                    </MudItem>
+
+                    @* Address2 *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>Billing Address Line 2</b>
+                        </MudText>
+                        <MudTextField @bind-Value="BillingAddress2"></MudTextField>
+                    </MudItem>
+
+                    @* Country *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark">
+                            <b>Country</b>
+                        </MudText>
+                        <MudSelect T="string" @bind-Value="Country" Margin="Margin.Dense" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                            <MudSelectItem T="string" Value="@("Canada")"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Flag_of_Canada_%28Pantone%29.svg" height="14" class="mr-1" />Canada</MudSelectItem>
+                            <MudSelectItem T="string" Value="@("United States")"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" height="14" class="mr-1" />United States</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                </MudStack>
+            </MudItem>
+
+            <MudItem xs="6">
+                <MudStack Spacing="8">
+                    @* City *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>City</b>
+                        </MudText>
+                        <MudTextField @bind-Value="City"></MudTextField>
+                    </MudItem>
+
+                    @* State *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>Province/State</b>
+                        </MudText>
+                        <MudTextField @bind-Value="State"></MudTextField>
+                    </MudItem>
+
+                    @* Postal code *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>Postal Code</b>
+                        </MudText>
+                        <MudTextField @bind-Value="Postal"></MudTextField>
+                    </MudItem>
+
+                    @* Phone *@
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>Phone Number</b>
+                        </MudText>
+                        <MudTextField @bind-Value="Phone" Mask="@(new PatternMask("000-000-0000"))"></MudTextField>
+                    </MudItem>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public User User { get; set; }
+
+    private const string NewCardText = "New credit card";
+
+    private string PaymentMethod { get; set; } = "Card ending in **56";
+
+    private string? Card { get; set; }
+
+    private string? Cvc { get; set; }
+
+    private string? Expires { get; set; }
+
+    private string? FirstName { get; set; }
+
+    private string? LastName { get; set; }
+
+    private string? BillingAddress1 { get; set; }
+
+    private string? BillingAddress2 { get; set; }
+
+    private string? Country { get; set; }
+
+    private string? State { get; set; }
+
+    private string? City { get; set; }
+
+    private string? Postal { get; set; }
+
+    private string? Phone { get; set; }
+
+    @* Set all the fields to the user data *@
+    private void SelectSavedPayment()
+    {
+        FirstName = User.FirstName;
+        LastName = User.LastName;
+        BillingAddress1 = User.BillingAddress1;
+        BillingAddress2 = User.BillingAddress2;
+        Country = User.Country;
+        State = User.State;
+        City = User.City;
+        Postal = User.Postal;
+        Phone = User.Phone;
+    }
+
+    @* Clear the fields *@
+    private void SelectNewPayment()
+    {
+        FirstName = null;
+        LastName = null;
+        BillingAddress1 = null;
+        BillingAddress2 = null;
+        Country = null;
+        State = null;
+        City = null;
+        Postal = null;
+        Phone = null;
+    }
+
+    @* Select new or saved payment method *@
+    private void SetPaymentMethod(string selectedString)
+    {
+        PaymentMethod = selectedString;
+        if (selectedString == NewCardText)
+        {
+            SelectNewPayment();
+        }
+        else
+        {
+            SelectSavedPayment();
+        }
+    }
+}

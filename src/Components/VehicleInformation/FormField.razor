@@ -2,8 +2,13 @@
     <MudText Typo="Typo.body1">
         <b>@Label</b>
     </MudText>
-    @if(isDropDown){
-        <MudSelect T="string" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" ValueChanged=DropdownValueChanged>
+    @if(IsDropDown){
+        <MudSelect T="string" 
+                   Disabled="@IsDisabled"
+                   Placeholder="@(IsDisabled ? DisabledLabel : Placeholder)"
+                   Variant="Variant.Outlined" 
+                   AnchorOrigin="Origin.BottomCenter"
+                   ValueChanged=DropdownValueChanged>
             @foreach (var option in DropDownOptions)
             {
                 <MudSelectItem T="string" Value="@option" />
@@ -11,26 +16,48 @@
         </MudSelect>
     }
     else{
-        <MudTextField @bind-Value="TextValue" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+        <MudTextField 
+            @bind-Value="TextValue" 
+            Variant="Variant.Outlined" />
     }
 </MudStack>
 
 @code {
 
-    public string TextValue { get; set; }
+    public string? TextValue { get; set; }
 
     [Parameter] 
 	public string? Label { get; set; }
 
     [Parameter] 
-	public List<String> DropDownOptions { get; set; } = new List<String>();
+	public List<string> DropDownOptions { get; set; } = new();
 
     [Parameter] 
-	public bool isDropDown { get; set; } = true;
+	public bool IsDropDown { get; set; } = true;
 
 	[Parameter]
 	public EventCallback<string> DropdownValueChanged { get; set; }
 
     [Parameter]
     public EventCallback<string> TextValueChanged { get; set; }
+
+    string Placeholder => Label switch
+    {
+        "Color" => "None selected",
+        "Model" => "Select a model",
+        "Make" => "None selected",
+        "Year" => "Select a year",
+        "Type" => "Select a type",
+        _ => "No options available"
+    };
+    
+    string DisabledLabel => Label switch
+    {
+        "Color" => "Choose a model",
+        "Model" => "Choose a make",
+        _ => "No options available"
+    };
+
+    bool IsDisabled => DropDownOptions.Count == 0;
+
 }

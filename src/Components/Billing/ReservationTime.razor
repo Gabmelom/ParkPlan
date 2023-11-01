@@ -1,0 +1,61 @@
+﻿@using ParkPlan.Data;
+@inject UserService UserService
+@inject NavigationManager Nav
+
+<MudCard Class="rounded-xl mud-theme-secondary pa-4" Style="width:30%;min-width:fit-content;">
+    <MudCardContent>
+        <MudStack Spacing="8" Justify="Justify.Center" Style="align-items: center;">
+        
+            @* Date *@
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                    <b>Date</b>
+                </MudText>
+                <MudTextField Disabled="true" @bind-Value="User.Date" Style="margin-bottom:-20px"></MudTextField>
+            </MudItem>
+
+            @* Time *@
+            <MudItem>
+                <MudStack Row="true">
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>From</b>
+                        </MudText>
+                        <MudTimePicker Disabled="true" AmPm="true" @bind-Time="User.From" />
+                    </MudItem>
+
+                    <MudItem>
+                        <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                            <b>To</b>
+                        </MudText>
+                        <MudTimePicker Disabled="true" AmPm="true" @bind-Time="User.To" />
+                    </MudItem>
+                </MudStack>
+            </MudItem>
+            
+            @* Repeats *@
+            <MudItem Style="width:100%;">
+                <MudText Typo="Typo.body1" Color="Color.Dark" Style="margin-bottom:-20px">
+                    <b>Repeats</b>
+                </MudText>
+                <MudTextField Disabled="true" @bind-Value="User.Repeats"></MudTextField>
+            </MudItem>
+        </MudStack>
+    </MudCardContent>
+    <MudCardActions>
+        @* Edit button *@
+        <MudButton OnClick="NavigateToReservation" Variant="Variant.Filled" Color="Color.Primary" Style="margin-right:0;margin-left:auto;">Edit</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+
+    [Parameter]
+    public User User { get; set; } = null!;
+
+    @* Return to reservation details page *@
+    private void NavigateToReservation()
+    {
+        Nav.NavigateTo("/ReservationDetails");
+    }
+}
