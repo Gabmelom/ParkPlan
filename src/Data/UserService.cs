@@ -11,9 +11,9 @@
 
         public Task<User> GetUserAsync() => Task.FromResult(User);
 
-        public void SetUsername(string username)
+        public void SetUsername(string? username)
         {
-            User.Username = username ?? "";
+            User.Username = username ?? "Dennis";
         }
     }
 }

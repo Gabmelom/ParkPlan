@@ -1,15 +1,20 @@
 ﻿@using ParkPlan.Data;
 @inject UserService UserService
+@inject NavigationManager Nav
 
 <MudNavMenu>
-    <MudNavLink Href="login" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Login</MudNavLink>
-    @if(User?.Username != null)
+    @if(string.IsNullOrEmpty(User?.Username))
+    {
+        <MudNavLink Href="login" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Login</MudNavLink>
+    }
+    else
     {
         <MudNavLink Href="profile" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">User Profile</MudNavLink>
         <MudNavLink Href="ParkingSearch" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Search">Parking Search</MudNavLink>
         <MudNavLink Href="VehicleInformation" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.DirectionsCar">Vehicle Information</MudNavLink>
         <MudNavLink Href="ReservationDetails" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LocalParking">Reservation Details</MudNavLink>
         <MudNavLink Href="Billing" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ShoppingCart">Billing</MudNavLink>
+        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" OnClick="Logout">Logout</MudNavLink>
     }
 </MudNavMenu>
 
@@ -20,5 +25,11 @@
     {
         await base.OnInitializedAsync();
         User = await UserService.GetUserAsync();
+    }
+    
+    private void Logout()
+    {
+        UserService.SetUsername("");
+        Nav.NavigateTo("/login");
     }
 }
