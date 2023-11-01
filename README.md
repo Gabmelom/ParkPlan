@@ -7,18 +7,20 @@ Step 1: Download and install .NET Runtime 6.0 and ASP.NET Core Runtime 6.0 from 
 
 If you try to run ParkPlan.exe without the dependencies it should provide you with a download link specific to your OS
 
-Step 2: Run ParkPlan\ParkPlan.exe
+Step 2: Run ParkPlan.exe from the ParkPlan_exe.zip folder
 
-Step 3: The command prompt will display the port used (by default its localhost:5000 or 5001), navigate to the page within a browser of choice
+Step 3: The command prompt should display the port used (by default it is localhost:5000 or 5001), navigate to the page within a browser of choice
 
 ### Method 2
 
 Step 1: Download and install .NET SDK 6.0 which already includes ASP.NET Core Runtime 6.0 from https://dotnet.microsoft.com/en-us/download/dotnet/6.0. The SDK will allow us to compile the code and run it
 
-Step 2: Open a command prompt and run the following commands on the folder with the solution file:
+Step 2: Open a command prompt and run the following commands on the folder with the ParkPlan_repo.zip file:
+```
 dotnet restore ParkPlan.sln <= Installs nuget dependencies
 dotnet build ParkPlan.sln <= Compiles the code, generates the bin
 dotnet run ParkPlan.csproj <= Runs the code
+```
 
 Step 3: The command prompt will display the port used (by default its localhost:5000 or 5001), navigate to the page within a browser of choice
 
